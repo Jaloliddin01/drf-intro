@@ -10,10 +10,24 @@ def hi(request: Request) -> Response:
     pass
 
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def addition(request: Request) -> Response:
-    '''add two number'''
-    pass
+    
+    if request.method == "GET":
+        query_params = request.query_params
+
+        x = query_params.get('x', 0)
+        y = query_params.get('y', 0)
+
+        return Response({'result' : int(x)+int(y)}, status=status.HTTP_200_OK)
+    elif request.method == 'POST':
+        query = request.data
+
+        x = int(query.get('x', 0))
+        y = int(query.get('y', 0))
+
+        return Response({'result': x+y}, status=status.HTTP_200_OK)
+
     
 
 @api_view(['GET'])
